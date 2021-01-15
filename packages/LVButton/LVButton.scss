@@ -1,0 +1,66 @@
+@mixin resize($minWidth, $height, $paddingLR, $fontSize) {
+  min-width: $minWidth;
+  height   : $height;
+  padding  : 0 $paddingLR;
+  font-size: $fontSize;
+
+  &.lv-btn-rounded,
+  &.lv-btn-circle {
+    border-radius: ($height / 2);
+  }
+
+  &.lv-btn-circle {
+    width    : $height;
+    min-width: 0;
+    padding  : 0;
+  }
+}
+
+.lv-btn {
+  @include resize(64px, 36px, 16px, 0.875rem);
+
+  border          : 0 solid black;
+  border-radius   : 4px;
+  background-color: var(--color-button);
+  outline         : none;
+
+  font-weight   : bold;
+  letter-spacing: 0.09em;
+  color         : #ffffff;
+
+  user-select: none;
+  cursor     : pointer;
+
+  &:hover {
+    filter: brightness(120%);
+  }
+
+  &:active {
+    filter: brightness(80%);
+  }
+
+  &.lv-btn-xsmall {
+    @include resize(36px, 20px, 9px, 0.625rem);
+  }
+
+  &.lv-btn-small {
+    @include resize(50px, 28px, 12px, 0.75rem);
+  }
+
+  &.lv-btn-large {
+    @include resize(78px, 44px, 19px, 0.875rem);
+  }
+
+  &.lv-btn-xlarge {
+    @include resize(92px, 52px, 23px, 1rem);
+  }
+
+  &.lv-btn-tile {
+    border-radius: 0;
+  }
+
+  &.lv-btn-disabled {
+    filter: opacity(80%);
+    cursor: not-allowed;
+  }
+}

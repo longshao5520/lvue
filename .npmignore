@@ -1,0 +1,14 @@
+.DS_Store
+node_modules/
+packages/
+script/
+src/
+public/
+.vscode/
+
+# Editor directories and files
+vue.config.js
+babel.config.js
+.browserslistrc
+.eslintrc.js
+*.map
