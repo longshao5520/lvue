@@ -37,7 +37,5 @@ import 'lvue/lib/lvue.css';
 createApp(App).use(lvue, {locale: 'zh'}).mount("#app");
 ```
 
-## 按需引用
-
 ## LICENSE
-[MIT](https://github.com/longshao5520/lvue/blob/master/LICENSE)
+[MIT](https://github.com/longshao5520/lvue/blob/main/LICENSE)

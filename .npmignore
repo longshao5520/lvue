@@ -9,6 +9,7 @@ public/
 # Editor directories and files
 vue.config.js
 babel.config.js
+tsconfig.json
 .browserslistrc
 .eslintrc.js
 *.map
