@@ -1,7 +1,7 @@
 {
   "name": "lvue",
   "description": "基于vue3.0,对element-plus二次封装的组件库",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "author": "longshao5520",
   "license": "MIT",
   "private": false,

@@ -1,4 +1,4 @@
-import { computed, defineComponent, reactive, ref, watch } from "vue";
+import { computed, defineComponent, reactive, watch } from "vue";
 import type { TableOptions } from './types';
 
 export default defineComponent({
