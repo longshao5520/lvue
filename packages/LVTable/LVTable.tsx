@@ -46,6 +46,8 @@ export default defineComponent({
     const stripe = computed(() => (option.stripe ? true : false))
     const border = computed(() => (option.border ? true : false))
 
+    // const menuStatus = computed(() => {})
+
     const viewBtn = computed(() =>
       option.viewBtn == undefined || option.viewBtn ? true : false
     )
@@ -63,7 +65,7 @@ export default defineComponent({
       if (option.menu) {
         return true;
       } else {
-        if (option.viewBtn || option.editBtn || option.delBtn) {
+        if (viewBtn.value || editBtn.value || delBtn.value) {
           return true;
         } else {
           return false;
@@ -74,15 +76,17 @@ export default defineComponent({
     const menuWidth = computed(() => {
       if (option.menu && option.menuWidth) {
         return option.menuWidth;
+      } else if (!option.menu && option.menuWidth) {
+        return option.menuWidth;
       } else {
         let i = 0;
-        if (option.viewBtn) {
+        if (viewBtn.value) {
           i++;
         }
-        if (option.editBtn) {
+        if (editBtn.value) {
           i++;
         }
-        if (option.delBtn) {
+        if (delBtn.value) {
           i++;
         }
         return `${i * 80}px`;
@@ -161,7 +165,7 @@ export default defineComponent({
     }
 
     function tableOperation() {
-      if (menuStatus.value)
+      if (menuStatus.value){
         return (
           <el-table-column
             label="操作"
@@ -172,41 +176,45 @@ export default defineComponent({
               default: (scope: any) => (
                 <>
                   <el-button
-                    v-show={viewBtn}
+                    v-show={viewBtn.value}
                     type="text"
                     size="small"
-                    icon="el-icon-view"
+                    icon={option.viewBtnIcon}
                     style="font-size: 14px;"
                     onClick={examine.bind(scope, scope.row)}
                   >
                     {viewBtnText.value}
                   </el-button>
                   <el-button
-                    v-show={editBtn}
+                    v-show={editBtn.value}
                     type="text"
                     size="small"
-                    icon="el-icon-edit"
+                    icon={option.editBtnIcon}
                     style="font-size: 14px;"
                     onClick={update.bind(scope, scope.row)}
                   >
                     {editBtnText.value}
                   </el-button>
                   <el-button
-                    v-show={delBtn}
+                    v-show={delBtn.value}
                     type="text"
                     size="small"
-                    icon="el-icon-delete"
+                    icon={option.delBtnIcon}
                     style="font-size: 14px;"
                     onClick={remove.bind(scope, scope.row)}
                   >
                     {delBtnText.value}
                   </el-button>
+                  {context.slots.menu?.({
+                    index: scope.$index,
+                    row: scope.row
+                  })}
                 </>
               )
             }}
           ></el-table-column>
-
         )
+      }
     }
 
     function tablePagination() {
@@ -276,6 +284,11 @@ export default defineComponent({
                           { scope.row[item.prop] }
                         </a>
                       )
+                    }else{
+                      {context.slots[item.prop]?.({
+                        index: scope.$index,
+                        row: scope.row
+                      })}
                     }
                   }
                 }}

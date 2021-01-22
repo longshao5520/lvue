@@ -9,7 +9,16 @@
         @update="update"
         @remove="remove"
         @current-change="currentChange"
-      ></lv-table>
+      >
+        <template #menu="{index, row}">
+          <el-button
+            type="text"
+            @click="clickBtn(index, row)"
+          >
+            去处理
+          </el-button>
+        </template>
+      </lv-table>
     </div>
   </div>
 </template>
@@ -24,7 +33,7 @@ export default defineComponent({
   components: {},
   setup() {
     const data = reactive({
-      tableData: [] as any[],
+      tableData: [],
       page: {
         total: 50,
         currentPage: 1,
@@ -37,8 +46,8 @@ export default defineComponent({
         // button/icon/text
         menuType: "",
         viewBtn: false,
-        // editBtn: true,
-        // delBtn: true,
+        editBtn: false,
+        delBtn: false,
 
         // viewBtnText: "查看按钮",
         // editBtnText: "编辑按钮",
@@ -59,6 +68,13 @@ export default defineComponent({
           // { label: "头像", prop: "img", type: "img" }
         ]
       }
+    } as {
+      tableData: Array<object>;
+      page: {
+        total: number;
+        currentPage: number;
+        pageSize: number;
+      };
     });
 
     function onClick(e: MouseEvent) {
@@ -96,7 +112,7 @@ export default defineComponent({
       onClick,
       examine: (index: number, row: object) => {
         // console.log(index, row);
-        
+
         ElMessage("查看按钮");
       },
       update: () => {
@@ -104,6 +120,9 @@ export default defineComponent({
       },
       remove: () => {
         ElMessage("删除按钮");
+      },
+      clickBtn: (index: number, row: object) => {
+        ElMessage("查看" + index);
       },
       currentChange
     };

@@ -19,8 +19,11 @@ export interface TableOptions {
   editBtn?: boolean;
   delBtn?: boolean;
   viewBtnText?: string;
+  viewBtnIcon?: string;
   editBtnText?: string;
+  editBtnIcon?: string;
   delBtnText?: string;
+  delBtnIcon?: string;
 
   border?: boolean;
   stripe?: boolean;
