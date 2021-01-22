@@ -1,4 +1,4 @@
-import { computed, defineComponent, reactive, watch } from "vue";
+import { computed, defineComponent, reactive, ref, watch } from "vue";
 import type { TableOptions } from './types';
 
 export default defineComponent({
@@ -137,8 +137,6 @@ export default defineComponent({
     //   context.emit("size-change", index);
     // }
 
-
-
     function tableEmpty() {
       return () => (
         <div class="empty-style">
@@ -216,6 +214,7 @@ export default defineComponent({
         )
       }
     }
+    // current-change={currentChange}
 
     function tablePagination() {
       if (option.showPagination) {
@@ -227,7 +226,7 @@ export default defineComponent({
             current-page={props.page.currentPage}
             page-size={props.page.pageSize}
             total={props.page.total}
-            current-change={currentChange}
+            onCurrentChange={currentChange}
           ></el-pagination>
         )
       }
@@ -284,12 +283,17 @@ export default defineComponent({
                           { scope.row[item.prop] }
                         </a>
                       )
-                    }else{
-                      {context.slots[item.prop]?.({
-                        index: scope.$index,
-                        row: scope.row
-                      })}
+                    }else {
+                      return (
+                        <>
+                          {context.slots[item.prop]?.({
+                            index: scope.$index,
+                            row: scope.row
+                          })}
+                        </>
+                      )
                     }
+                    
                   }
                 }}
               ></el-table-column>
