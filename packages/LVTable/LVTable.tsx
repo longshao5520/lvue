@@ -1,4 +1,4 @@
-import { computed, defineComponent, reactive, watch } from "vue";
+import { computed, defineComponent, reactive } from "vue";
 import type { TableOptions } from './types';
 
 export default defineComponent({
@@ -11,8 +11,7 @@ export default defineComponent({
     },
     option: {
       type: Object,
-      default: () => ({
-      } as TableOptions)
+      default: () => ({})
     },
     page: {
       type: Object,
@@ -26,19 +25,17 @@ export default defineComponent({
 
   setup(props, context) {
 
-    const arrData = reactive({
-      tableData: [] as any[]
-    })
-
     const option = reactive({
       ...props.option
     } as TableOptions);
 
     const tableType = computed(() => {
-      if (props.option.index) {
+      if (option.index) {
         return "index";
-      } else if (props.option.selection) {
+      } else if (option.selection) {
         return "selection";
+      } else {
+        return "";
       }
     })
 
@@ -46,7 +43,6 @@ export default defineComponent({
     const stripe = computed(() => (option.stripe ? true : false))
     const border = computed(() => (option.border ? true : false))
 
-    // const menuStatus = computed(() => {})
 
     const viewBtn = computed(() =>
       option.viewBtn == undefined || option.viewBtn ? true : false
@@ -101,15 +97,13 @@ export default defineComponent({
       "font-weight": "bold",
       height: "48px",
       "text-align": option.align || "center",
-      "background-color": props.option.headerColor || "#F8F8F8",
-      color: props.option.headerTextColor || "#323E4D",
-      "font-size": props.option.textSize || "14px"
+      "background-color": option.headerBg || "#F8F8F8",
+      color: option.headerColor || "#323E4D",
     }
     const rowStyle = {
       height: "60px",
       color: props.option.textColor || "#323E4D",
       "text-align": option.align || "center",
-      "font-size": props.option.textSize || "14px",
       "white-space": "nowrap",
       overflow: "hidden"
     }
@@ -119,8 +113,6 @@ export default defineComponent({
     }
 
     const examine = (row: object) => {
-      console.log(row);
-      
       context.emit("examine", row);
     }
     const update = (index: number, row: object) => {
@@ -148,7 +140,7 @@ export default defineComponent({
       )
     }
 
-    function tableIndex() {
+    function tableSelection() {
       if (indexStatus.value) {
         return (
           <el-table-column
@@ -157,6 +149,20 @@ export default defineComponent({
             type={tableType.value}
             width="100"
             fixed
+          ></el-table-column>
+        )
+      }
+    }
+
+    function tableIndex() {
+      if (indexStatus.value) {
+        return (
+          <el-table-column
+            index={indexMethod}
+            label={option.indexTitle}
+            type={tableType.value}
+            width={option.indexWidth}
+            fixed={option.indexFixed || true}
           ></el-table-column>
         )
       }
@@ -175,7 +181,7 @@ export default defineComponent({
                 <>
                   <el-button
                     v-show={viewBtn.value}
-                    type="text"
+                    type={option.menuType || 'text'}
                     size="small"
                     icon={option.viewBtnIcon}
                     style="font-size: 14px;"
@@ -214,10 +220,9 @@ export default defineComponent({
         )
       }
     }
-    // current-change={currentChange}
 
     function tablePagination() {
-      if (option.showPagination) {
+      if (option.pagination) {
         return (
           <el-pagination
             background
@@ -231,10 +236,6 @@ export default defineComponent({
         )
       }
     }
-
-    watch(props.data, (nv: any) => {
-      arrData.tableData = nv
-    })
 
     return () => (
       <div style={`width: ${option.width};`}>
@@ -250,6 +251,7 @@ export default defineComponent({
             empty: tableEmpty()
           }}
         >
+          {tableSelection()}
           {tableIndex()}
           {option.column.map(function(item){
             return (

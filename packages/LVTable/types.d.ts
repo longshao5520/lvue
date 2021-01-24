@@ -2,7 +2,7 @@ export interface TableColumn {
   prop: string;
   label: string;
   width: string;
-  type: string;
+  type?: "text" | "img" | "link";
 }
 
 export interface TableOptions {
@@ -10,32 +10,41 @@ export interface TableOptions {
   width: string;
   height: string;
 
+  headerBg: string;
+  headerColor: string;
+
+  emptyIcon: string;
   emptyText: string;
 
-  menu?: boolean;
-  menuWidth?: string;
+  menu: boolean;
+  menuType?: "icon" | "button" | "text";
+  menuTitle: string;
+  menuWidth: string;
+  menuFixed: boolean;
 
-  viewBtn?: boolean;
-  editBtn?: boolean;
-  delBtn?: boolean;
-  viewBtnText?: string;
-  viewBtnIcon?: string;
-  editBtnText?: string;
-  editBtnIcon?: string;
-  delBtnText?: string;
-  delBtnIcon?: string;
+  viewBtn: boolean;
+  editBtn: boolean;
+  delBtn: boolean;
 
-  border?: boolean;
-  stripe?: boolean;
+  viewBtnText: string;
+  editBtnText: string;
+  delBtnText: string;
 
-  index?: boolean;
-  indexLabel?: boolean;
-  indexWidth?: string;
-  indexFixed?: boolean;
+  viewBtnIcon: string;
+  editBtnIcon: string;
+  delBtnIcon: string;
 
-  selection?: boolean;
+  border: boolean;
+  stripe: boolean;
 
-  showPagination: boolean;
+  index: boolean;
+  indexTitle: boolean;
+  indexWidth: string;
+  indexFixed: boolean;
+
+  selection: boolean;
+
+  pagination: boolean;
 
   column: Array<TableColumn>;
 }
