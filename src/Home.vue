@@ -1,150 +1,97 @@
 <template>
-  <div class="home-root">
-    <div>
-      <lv-table
-        :data="data.tableData"
-        :option="data.tableOption"
-        :page="data.page"
-        @examine="examine"
-        @update="update"
-        @remove="remove"
-        @current-change="currentChange"
-      >
-        <template #menu="{index, row}">
-          <el-button
-            type="text"
-            @click="clickBtn(index, row)"
-          >
-            去处理
-          </el-button>
-        </template>
-      </lv-table>
-    </div>
+  <div>
+    <el-button type="primary" @click="dialogVisible = true">123</el-button>
+    <el-dialog v-model="dialogVisible" title="111" width="70vw" center>
+      <lv-form :option="option"></lv-form>
+      <!-- <template #footer>
+        <el-button @click="dialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="submit">OK</el-button>
+      </template> -->
+    </el-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, reactive } from "vue";
-import { ElMessage } from "../packages/index";
-import axios from "axios";
+import { defineComponent, reactive, ref } from "vue";
 
 export default defineComponent({
   name: "Home",
+  props: {},
   components: {},
   setup() {
-    const data = reactive({
-      tableData: [],
-      page: {
-        total: 50,
-        currentPage: 1,
-        pageSize: 4
-      },
-      tableOption: {
-        // align: "left",
-        menu: true,
-        menuWidth: "200px",
-        // button/icon/text
-        menuType: "",
-        viewBtn: false,
-        editBtn: false,
-        delBtn: false,
-
-        // viewBtnText: "查看按钮",
-        // editBtnText: "编辑按钮",
-        // delBtnText: "删除按钮",
-
-        index: true,
-        // selection: true,
-
-        // width: "80%",
-        // height: "648px",
-        // stripe: true,
-        // border: true,
-        showPagination: true,
-        column: [
-          { label: "标题", prop: "title", type: "text", width: "150px" },
-          { label: "姓名", prop: "author", type: "text", width: "120px" },
-          { label: "头像", prop: "img", type: "link" }
-          // { label: "头像", prop: "img", type: "img" }
-        ]
-      }
-    } as {
-      tableData: Array<object>;
-      page: {
-        total: number;
-        currentPage: number;
-        pageSize: number;
-      };
+    const dialogVisible = ref(true);
+    const option = reactive({
+      size: "",
+      submitText: "提交",
+      column: [
+        {
+          label: "用户名",
+          prop: "username",
+          tip: "这是信息提示",
+          span: 12,
+          maxlength: 3,
+          suffixIcon: "el-icon-tickets",
+          prefixIcon: "el-icon-tickets",
+          minlength: 2
+        },
+        {
+          label: "密码",
+          prop: "password",
+          type: "password",
+          maxlength: 20,
+          suffixIcon: "el-icon-tickets",
+          prefixIcon: "el-icon-tickets",
+          minlength: 2,
+          span: 12
+        },
+        {
+          label: "个人简介",
+          prop: "textarea",
+          type: "textarea",
+          maxlength: 300,
+          rows: 5,
+          resize: "none"
+        },
+        {
+          label: "爱好",
+          prop: "select",
+          type: "select",
+          dicData: [
+            { label: "篮球", value: "1" },
+            { label: "乒乓球", value: "2" },
+            { label: "足球", value: "3" }
+          ],
+          span: 6
+        },
+        {
+          label: "性别",
+          prop: "radio",
+          type: "radio",
+          dicData: [
+            { label: "男", value: "1" },
+            { label: "女", value: "0" }
+          ],
+          span: 6
+        },
+        {
+          label: "开关",
+          prop: "switch",
+          span: 6,
+          type: "switch",
+          activeColor: "#13ce66",
+          inactiveColor: "#ff4949"
+        }
+      ]
     });
-
-    function onClick(e: MouseEvent) {
-      console.log(e);
-    }
-
-    let arrData: any = [];
-    function fetch() {
-      axios.get("http://localhost:3000/posts").then(res => {
-        arrData = res.data;
-        const arr = [arrData[0], arrData[1], arrData[2], arrData[3]];
-        data.tableData = arr;
-        data.page.total = res.data.length;
-      });
-    }
-
-    const currentChange = (index: number) => {
-      // ElMessage(`当前第 ${index} 页`);
-      data.page.currentPage = index;
-      const arr = [
-        arrData[index * data.page.pageSize - 4],
-        arrData[index * data.page.pageSize - 3],
-        arrData[index * data.page.pageSize - 2],
-        arrData[index * data.page.pageSize - 1]
-      ];
-      data.tableData = arr;
-    };
-
-    onBeforeMount(() => {
-      fetch();
-    });
-
     return {
-      data,
-      onClick,
-      examine: (index: number, row: object) => {
-        // console.log(index, row);
-
-        ElMessage("查看按钮");
-      },
-      update: () => {
-        ElMessage("编辑按钮");
-      },
-      remove: () => {
-        ElMessage("删除按钮");
-      },
-      clickBtn: (index: number, row: object) => {
-        ElMessage("查看" + index);
-      },
-      currentChange
+      dialogVisible,
+      option,
+      submit: () => {
+        console.log(1);
+      }
     };
   }
 });
 </script>
 
-<style lang="scss" scoped>
-.btn-container {
-  width: 480px;
-  height: 160px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.btn {
-  margin: 10px;
-}
-
-.my-icon {
-  margin-left: 3px;
-}
-</style>
+<style scoped></style>

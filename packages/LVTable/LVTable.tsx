@@ -1,5 +1,5 @@
 import { computed, defineComponent, reactive } from "vue";
-import type { TableOptions } from './types';
+import { TableOptions } from "./types";
 
 export default defineComponent({
   name: "lv-table",
@@ -24,7 +24,6 @@ export default defineComponent({
   },
 
   setup(props, context) {
-
     const option = reactive({
       ...props.option
     } as TableOptions);
@@ -37,25 +36,24 @@ export default defineComponent({
       } else {
         return "";
       }
-    })
+    });
 
-    const indexStatus = computed(() => option.index || option.selection)
-    const stripe = computed(() => (option.stripe ? true : false))
-    const border = computed(() => (option.border ? true : false))
-
+    const indexStatus = computed(() => option.index || option.selection);
+    const stripe = computed(() => (option.stripe ? true : false));
+    const border = computed(() => (option.border ? true : false));
 
     const viewBtn = computed(() =>
       option.viewBtn == undefined || option.viewBtn ? true : false
-    )
+    );
     const editBtn = computed(() =>
       option.editBtn == undefined || option.editBtn ? true : false
-    )
+    );
     const delBtn = computed(() =>
       option.delBtn == undefined || option.delBtn ? true : false
-    )
-    const viewBtnText = computed(() => option.viewBtnText || "查看")
-    const editBtnText = computed(() => option.editBtnText || "编辑")
-    const delBtnText = computed(() => option.delBtnText || "删除")
+    );
+    const viewBtnText = computed(() => option.viewBtnText || "查看");
+    const editBtnText = computed(() => option.editBtnText || "编辑");
+    const delBtnText = computed(() => option.delBtnText || "删除");
 
     const menuStatus = computed(() => {
       if (option.menu) {
@@ -67,7 +65,7 @@ export default defineComponent({
           return false;
         }
       }
-    })
+    });
 
     const menuWidth = computed(() => {
       if (option.menu && option.menuWidth) {
@@ -87,44 +85,44 @@ export default defineComponent({
         }
         return `${i * 80}px`;
       }
-    })
+    });
 
     const tableStyle = {
       width: "100%",
       overflow: "auto"
-    }
+    };
     const headerStyle = {
       "font-weight": "bold",
       height: "48px",
       "text-align": option.align || "center",
       "background-color": option.headerBg || "#F8F8F8",
-      color: option.headerColor || "#323E4D",
-    }
+      color: option.headerColor || "#323E4D"
+    };
     const rowStyle = {
       height: "60px",
       color: props.option.textColor || "#323E4D",
       "text-align": option.align || "center",
       "white-space": "nowrap",
       overflow: "hidden"
-    }
+    };
 
     const indexMethod = (index: number) => {
       return props.page.pageSize * (props.page.currentPage - 1) + (index + 1);
-    }
+    };
 
     const examine = (row: object) => {
       context.emit("examine", row);
-    }
+    };
     const update = (index: number, row: object) => {
       context.emit("update", index, row);
-    }
+    };
     const remove = (index: number, row: object) => {
       context.emit("remove", index, row);
-    }
+    };
 
     const currentChange = (index: number) => {
       context.emit("current-change", index);
-    }
+    };
     // const SizeChange = (index: number) => {
     //   context.emit("size-change", index);
     // }
@@ -137,7 +135,7 @@ export default defineComponent({
             {option.emptyText || "暂无数据"}
           </span>
         </div>
-      )
+      );
     }
 
     function tableSelection() {
@@ -150,7 +148,7 @@ export default defineComponent({
             width="100"
             fixed
           ></el-table-column>
-        )
+        );
       }
     }
 
@@ -164,12 +162,12 @@ export default defineComponent({
             width={option.indexWidth}
             fixed={option.indexFixed || true}
           ></el-table-column>
-        )
+        );
       }
     }
 
     function tableOperation() {
-      if (menuStatus.value){
+      if (menuStatus.value) {
         return (
           <el-table-column
             label="操作"
@@ -181,7 +179,7 @@ export default defineComponent({
                 <>
                   <el-button
                     v-show={viewBtn.value}
-                    type={option.menuType || 'text'}
+                    type={option.menuType || "text"}
                     size="small"
                     icon={option.viewBtnIcon}
                     style="font-size: 14px;"
@@ -217,7 +215,7 @@ export default defineComponent({
               )
             }}
           ></el-table-column>
-        )
+        );
       }
     }
 
@@ -233,7 +231,7 @@ export default defineComponent({
             total={props.page.total}
             onCurrentChange={currentChange}
           ></el-pagination>
-        )
+        );
       }
     }
 
@@ -247,45 +245,41 @@ export default defineComponent({
           header-cell-style={headerStyle}
           cell-style={rowStyle}
           style={tableStyle}
-          v-slots={{ 
+          v-slots={{
             empty: tableEmpty()
           }}
         >
           {tableSelection()}
           {tableIndex()}
-          {option.column.map(function(item){
+          {option.column.map(function(item) {
             return (
               <el-table-column
                 prop={item.prop}
                 label={item.label}
-                width={item.width || ''}
+                width={item.width || ""}
                 show-overflow-tooltip
                 v-slots={{
                   default: (scope: any) => {
-                    if (item.type == 'text') {
-                      return (
-                        <span>
-                          {scope.row[item.prop]}
-                        </span>
-                      )
-                    }else if(item.type == 'img'){
+                    if (item.type == "text") {
+                      return <span>{scope.row[item.prop]}</span>;
+                    } else if (item.type == "img") {
                       return (
                         <el-image
                           src={scope.row[item.prop]}
                           style="height: 100%; width: 60px"
                         ></el-image>
-                      )
-                    }else if(item.type == 'link'){
+                      );
+                    } else if (item.type == "link") {
                       return (
                         <a
                           href={scope.row[item.prop]}
                           target="_blank"
                           class="lv-link"
                         >
-                          { scope.row[item.prop] }
+                          {scope.row[item.prop]}
                         </a>
-                      )
-                    }else {
+                      );
+                    } else {
                       return (
                         <>
                           {context.slots[item.prop]?.({
@@ -293,17 +287,17 @@ export default defineComponent({
                             row: scope.row
                           })}
                         </>
-                      )
+                      );
                     }
-                    
                   }
                 }}
               ></el-table-column>
-            )
+            );
           })}
           {tableOperation()}
         </el-table>
         {tablePagination()}
-      </div>);
-  },
+      </div>
+    );
+  }
 });

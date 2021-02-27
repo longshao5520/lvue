@@ -1,6 +1,7 @@
 # lvue
 
 ## 安装
+
 ```
 npm install lvue
 
@@ -10,9 +11,11 @@ yarn add lvue
 ```
 
 ## 完整引入
+
 在 main.js 中写入以下内容：
 
 ### vue2.x
+
 ```
 import Vue from "vue";
 
@@ -26,7 +29,9 @@ new Vue({
   render: h => h(App)
 });
 ```
+
 ### vue3.0
+
 ```
 import { createApp } from "vue";
 import App from "./App.vue";
@@ -38,4 +43,5 @@ createApp(App).use(lvue, {locale: 'zh'}).mount("#app");
 ```
 
 ## LICENSE
+
 [MIT](https://github.com/longshao5520/lvue/blob/main/LICENSE)

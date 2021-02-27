@@ -17,8 +17,9 @@ import {
 import LVButton from "./LVButton";
 import LVIcon from "./LVIcon";
 import LVTable from "./LVTable";
+import LVForm from "./LVForm";
 
-const components = [LVButton, LVIcon, LVTable];
+const components = [LVButton, LVIcon, LVTable, LVForm];
 
 interface LocaleType {
   locale: "zh" | "en";
@@ -41,6 +42,6 @@ const install = (app: App, a: LocaleType) => {
 
 export { ElMessage, ElLoading, ElMessageBox, ElNotification };
 
-export { install, LVButton, LVIcon, LVTable };
+export { install, LVButton, LVIcon, LVTable, LVForm };
 
-export default { install, LVButton, LVIcon, LVTable };
+export default { install, LVButton, LVIcon, LVTable, LVForm };

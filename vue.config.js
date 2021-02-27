@@ -6,6 +6,14 @@ module.exports = {
   css:{
     sourceMap: false
   },
+  devServer: {
+    port: 20010,
+    open: true,
+    overlay: {
+      warnings: false,
+      errors: true
+    }
+  },
   chainWebpack: config => {
     //svg
     const svgRule = config.module.rule("svg");
